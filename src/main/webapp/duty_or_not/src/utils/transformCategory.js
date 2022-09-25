@@ -1,9 +1,9 @@
 const categories = {
-	G: ['Г', '#d50000'],
-	GO: ['ГО', '#ff5252'],
-	NGM: ['НГМ', '#81c784'],
-	NGI: ['НГИ', '#4caf50'],
-	VN: ['ВН', '#00c853']
+	G: ['Г', '#e91616'],
+	GO: ['ГО', '#f05c5c'],
+	NGM: ['НГМ', '#99ff99'],
+	NGI: ['НГИ', '#80ff80'],
+	VN: ['ВН', ' #ffcc66']
 };
 
 export const transformCategory = (category) => {

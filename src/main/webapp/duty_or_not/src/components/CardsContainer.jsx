@@ -6,11 +6,10 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import { Chip, Modal } from '@mui/material';
+import { Box, Modal } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { transformCategory } from '../utils/transformCategory';
-import { deepOrange } from '@mui/material/colors';
 
 export const CardsContainer = ({ theme }) => {
 	console.log(theme);
@@ -19,10 +18,10 @@ export const CardsContainer = ({ theme }) => {
 			id: 1,
 			title: 'Незаращение овального окна 4мм',
 			comment:
-				'По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году',
+				'По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году',
 			paragraph: '80В',
-			category: 'NGM',
-			caseDate: 1664053200000,
+			category: 'G',
+			caseDate: 1604277230022,
 			creationDate: 1664053200000
 		},
 		{
@@ -31,7 +30,7 @@ export const CardsContainer = ({ theme }) => {
 			comment:
 				'По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году',
 			paragraph: '80В',
-			category: 'G',
+			category: 'GO',
 			caseDate: 1664053200000,
 			creationDate: 1664053200000
 		},
@@ -51,7 +50,17 @@ export const CardsContainer = ({ theme }) => {
 			comment:
 				'По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году',
 			paragraph: '80В',
-			category: 'GO',
+			category: 'NGI',
+			caseDate: 1664053200000,
+			creationDate: 1664053200000
+		},
+		{
+			id: 5,
+			title: 'Незаращение овального окна 4мм',
+			comment:
+				'По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году',
+			paragraph: '80В',
+			category: 'VN',
 			caseDate: 1664053200000,
 			creationDate: 1664053200000
 		}
@@ -68,7 +77,7 @@ export const CardsContainer = ({ theme }) => {
 			<Grid
 				container
 				spacing={4}
-				justifyContent="space-between"
+				justifyContent="flex-start"
 				alignItems="center"
 			>
 				{cards.map((card) => (
@@ -90,18 +99,28 @@ export const CardsContainer = ({ theme }) => {
 								>
 									{card.title}
 								</Typography>
-								<Typography variant="body2" mb={2}>
+								<Typography
+									variant="body2"
+									mb={2}
+									noWrap={true}
+								>
 									{card.comment}
 								</Typography>
-								<Typography
-									variant="h5"
-									mb={2}
-									color={
-										transformCategory(card.category).color
-									}
+								<Box
+									sx={{
+										borderRadius: '10px',
+										width: 'max-content',
+										bgcolor: transformCategory(
+											card.category
+										).color
+									}}
+									pr={2}
+									pl={2}
 								>
-									{transformCategory(card.category).name}
-								</Typography>
+									<Typography variant="h5" color="#ffffff">
+										{transformCategory(card.category).name}
+									</Typography>
+								</Box>
 							</CardContent>
 
 							<CardActions>
@@ -109,14 +128,45 @@ export const CardsContainer = ({ theme }) => {
 									onClick={handleOpen}
 									variant="contained"
 								>
-									Больше ифнормации
+									Больше информации
 								</Button>
-								<Typography variant="body2" paragraph pl={1}>
-									Создано: 09.09.2022
-								</Typography>
-								<Typography variant="body2" paragraph pl={1}>
-									Поставлен диагноз: 09.09.2022
-								</Typography>
+								<Box
+									sx={{
+										display: 'flex',
+										justifyContent: 'space-around',
+										width: '100%'
+									}}
+								>
+									<Box
+										variant="body2"
+										paragraph
+										pl={1}
+										mb={0}
+									>
+										Создано:
+										<Typography
+											variant="body2"
+											paragraph
+											mb={0}
+										>
+											{new Date(card.caseDate)
+												.toISOString()
+												.slice(0, 10)}
+										</Typography>
+									</Box>
+									<Box variant="body2" paragraph>
+										Поставлен диагноз:
+										<Typography
+											variant="body2"
+											paragraph
+											mb={0}
+										>
+											{new Date(card.creationDate)
+												.toISOString()
+												.slice(0, 10)}
+										</Typography>
+									</Box>
+								</Box>
 							</CardActions>
 						</Card>
 					</Grid>
