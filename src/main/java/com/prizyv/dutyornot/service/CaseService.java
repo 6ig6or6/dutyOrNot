@@ -20,6 +20,7 @@ public class CaseService {
     public CaseService(CaseRepository caseRepository) {
         this.caseRepository = caseRepository;
     }
+
     public Case findById(Long id) {
         return caseRepository.findById(id).orElseThrow(CaseNotFoundException::new);
     }
@@ -28,10 +29,12 @@ public class CaseService {
         Case aCase = CaseMapper.mapFromDTO(caseDTO);
         return caseRepository.save(aCase);
     }
+
     public void deleteCase(Long id) {
         Case aCase = findById(id);
         caseRepository.delete(aCase);
     }
+
     public Case updateCase(Long id, CaseDTO caseDTO) {
         Case aCase = findById(id);
         //TODO
