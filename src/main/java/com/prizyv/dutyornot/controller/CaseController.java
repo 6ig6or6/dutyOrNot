@@ -19,11 +19,13 @@ public class CaseController {
     public CaseController(CaseService caseService) {
         this.caseService = caseService;
     }
+
     @PostMapping("case")
     public ResponseEntity<Case> registerCase(@RequestBody @Valid CaseDTO caseDTO) {
         Case aCase = caseService.registerCase(caseDTO);
         return new ResponseEntity<>(aCase, HttpStatus.OK);
     }
+
     @GetMapping("cases")
     public ResponseEntity<List<Case>> getCases(@RequestParam(required = false) String title,
                                                @RequestParam(required = false) String comment,
@@ -38,5 +40,17 @@ public class CaseController {
                 caseAfter, caseBefore,
                 pageNumber, pageSize);
         return new ResponseEntity<>(cases, HttpStatus.OK);
+    }
+
+    @DeleteMapping("admin/delete/{id}")
+    public ResponseEntity<?> deleteCase(@PathVariable Long id) {
+        caseService.deleteCase(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("admin/update/{id}")
+    public ResponseEntity<Case> updateCase(@PathVariable Long id,
+                                           @RequestBody @Valid CaseDTO caseDTO) {
+        return new ResponseEntity<>(caseService.updateCase(id, caseDTO), HttpStatus.OK);
     }
 }
