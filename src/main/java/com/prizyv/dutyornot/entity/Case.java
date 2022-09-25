@@ -3,34 +3,34 @@ package com.prizyv.dutyornot.entity;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
+@Table(name = "cases")
 public class Case {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 3, max = 60)
+    @Column(length = 60)
     private String title;
-    @Size(min = 20, max = 500)
+    @Column(length = 500, name = "comm")
     private String comment;
-    private Paragraph paragraph;
-    @NotNull
+    @Column(length = 3)
+    private String paragraph;
+    @Enumerated(value = EnumType.STRING)
     private Category category;
-    @NotNull
-    private LocalDate caseDate;
-    private LocalDateTime creationDateTime;
+    @Temporal(TemporalType.DATE)
+    private Date caseDate;
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
 
     @Override
     public boolean equals(Object o) {
