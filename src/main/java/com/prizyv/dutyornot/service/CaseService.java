@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -35,8 +34,8 @@ public class CaseService {
                                        Long caseBefore,
                                        Integer pageNumber,
                                        Integer pageSize) {
-        Date dateAfter = Date.valueOf(LocalDate.ofEpochDay(caseAfter));
-        Date dateBefore = Date.valueOf(LocalDate.ofEpochDay(caseBefore));
+        Date dateAfter = caseAfter == null ? null : new Date(caseAfter);
+        Date dateBefore = caseBefore == null ? null : new Date(caseBefore);
         Pageable pageable = PageableCreator.createPageable(pageNumber, pageSize);
         return caseRepository.findBy(title, comment,
                 paragraph, category,

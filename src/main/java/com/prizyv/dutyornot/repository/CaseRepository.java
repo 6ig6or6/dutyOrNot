@@ -18,10 +18,9 @@ public interface CaseRepository extends JpaRepository<Case, Long> {
             "(:title is null or upper(c.title) like concat('%', upper(:title), '%'))" +
             "and (:comment is null or upper(c.comment) like concat('%', upper(:comment), '%'))" +
             "and (:paragraph is null or c.paragraph = :paragraph)" +
-            "and (:categoty is null or c.category = :category)" +
+            "and (:category is null or c.category = :category)" +
             "and (:caseAfter is null or c.caseDate > :caseAfter)" +
-            "and (:caseBefore is null or c.caseDate < :caseBefore)" +
-            "ORDER BY c.creationDate DESC")
+            "and (:caseBefore is null or c.caseDate < :caseBefore)")
     List<Case> findBy(@Param("title") String title,
                       @Param("comment") String comment,
                       @Param("paragraph") String paragraph,
