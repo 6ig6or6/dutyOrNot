@@ -13,7 +13,6 @@ import java.util.List;
 
 @Repository
 public interface CaseRepository extends JpaRepository<Case, Long> {
-    List<Case> findAll();
     @Query("SELECT c FROM Case c WHERE" +
             "(:title is null or upper(c.title) like concat('%', upper(:title), '%'))" +
             "and (:comment is null or upper(c.comment) like concat('%', upper(:comment), '%'))" +
