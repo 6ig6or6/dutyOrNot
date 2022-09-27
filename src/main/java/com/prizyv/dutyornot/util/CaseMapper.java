@@ -17,4 +17,8 @@ public class CaseMapper {
                 .category(caseDTO.getCategory())
                 .build();
     }
+    public static Case updateCase(CaseDTO caseDTO, Case aCase) {
+        //TODO
+        return null;
+    }
 }
