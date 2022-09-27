@@ -41,6 +41,7 @@ export const CardsContainer = () => {
 
 	const handlePageChange = (e, page) => {
 		setCurrentPage(page);
+		e.preventDefault();
 	};
 
 	useEffect(() => {
