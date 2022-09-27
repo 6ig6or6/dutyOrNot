@@ -6,8 +6,8 @@ export default class CardService {
 			'https://jsonplaceholder.typicode.com/posts',
 			{
 				params: {
-					limit,
-					page
+					_limit: limit,
+					_page: page
 				}
 			}
 		);

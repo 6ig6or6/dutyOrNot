@@ -15,7 +15,7 @@ export default function App() {
 			<TopBar />
 			<main>
 				<Hero />
-				<CardsContainer theme={theme} />
+				<CardsContainer />
 			</main>
 			{/* Footer */}
 			<Footer />

@@ -6,14 +6,12 @@ import CardService from '../API/CardService';
 import { Box, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useFetching } from '../hooks/useFetching';
 import { SettingsForm } from './SettingsForm';
+import { getPagesCount } from '../utils/pages';
 
 export const CardsContainer = () => {
-	const [fetchCards, isCardsLoading, cardsError] = useFetching(async () => {
-		const cards = await CardService.getAll();
-		console.log(cards.data);
-	});
-	const [params, setParams] = useState('');
-	const [pagesCount, setPagesCount] = useState(1);
+	const [filterParams, setFilterParams] = useState('');
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
 	const [cardsPerPage, setCardsPerPage] = useState(5);
 	const [cards, setCards] = useState([
 		{
@@ -27,12 +25,27 @@ export const CardsContainer = () => {
 			creationDate: 1664053200000
 		}
 	]);
+	const [fetchCards, isCardsLoading, cardsError] = useFetching(async () => {
+		const cards = await CardService.getAll(cardsPerPage, currentPage);
+		setCards(cards.data);
+		console.log(cards.headers['x-total-count'], 'total');
+		console.log(cardsPerPage, 'per page');
+		console.log(getPagesCount(100, 5));
+		console.log(
+			getPagesCount(cards.headers['x-total-count'], cardsPerPage),
+			'stranici'
+		);
+		const totalNum = cards.headers['x-total-count'];
+		setTotalPages(getPagesCount(totalNum, cardsPerPage));
+	});
 
-	const handlePageChange = () => {};
-	console.log(cardsPerPage);
+	const handlePageChange = (e, page) => {
+		setCurrentPage(page);
+	};
+
 	useEffect(() => {
 		fetchCards();
-	}, []);
+	}, [cardsPerPage, currentPage]);
 
 	return (
 		<Container sx={{ py: 8 }} maxWidth="xl">
@@ -53,6 +66,7 @@ export const CardsContainer = () => {
 						cardsPerPage={cardsPerPage}
 						setCardsPerPage={(e) => {
 							setCardsPerPage(e.target.value);
+							setCurrentPage(1);
 						}}
 					/>
 					<Grid
@@ -75,9 +89,10 @@ export const CardsContainer = () => {
 						}}
 					>
 						<Pagination
-							count={pagesCount}
+							count={totalPages}
 							color="primary"
 							shape="rounded"
+							page={currentPage}
 							onChange={handlePageChange}
 							boundaryCount={2}
 							sx={{ display: 'block', m: '10 auto' }}

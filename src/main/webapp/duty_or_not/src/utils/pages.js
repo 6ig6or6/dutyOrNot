@@ -1,3 +1,3 @@
-export const getPagesCount = (totalCount, limit) => {
-	Math.ceil(totalCount / limit);
+export const getPagesCount = (totalCount, cardsPerPage) => {
+	return Math.ceil(+totalCount / +cardsPerPage);
 };
