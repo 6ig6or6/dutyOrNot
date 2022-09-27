@@ -33,19 +33,19 @@ export const CardBlock = ({ card }) => {
 					mb={2}
 					noWrap={moreInfo ? false : true}
 				>
-					{card.comment}
+					{card?.comment}
 				</Typography>
 				<Box
 					sx={{
 						borderRadius: '10px',
 						width: 'max-content',
-						bgcolor: transformCategory(card.category).color
+						bgcolor: transformCategory(card?.category).color
 					}}
 					pr={2}
 					pl={2}
 				>
 					<Typography variant="h5" color="#ffffff">
-						{transformCategory(card.category).name}
+						{transformCategory(card?.category).name}
 					</Typography>
 				</Box>
 			</CardContent>
@@ -71,13 +71,13 @@ export const CardBlock = ({ card }) => {
 					<Box variant="body2" pl={1} mb={0}>
 						Создано:
 						<Typography variant="body2" mb={0}>
-							{getDateFromMilliseconds(card.caseDate)}
+							{getDateFromMilliseconds(card?.caseDate)}
 						</Typography>
 					</Box>
 					<Box variant="body2">
 						Поставлен диагноз:
 						<Typography variant="body2" mb={0}>
-							{getDateFromMilliseconds(card.creationDate)}
+							{getDateFromMilliseconds(card?.creationDate)}
 						</Typography>
 					</Box>
 				</Box>
