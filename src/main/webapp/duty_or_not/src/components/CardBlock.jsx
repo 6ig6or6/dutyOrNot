@@ -58,7 +58,7 @@ export const CardBlock = ({ card }) => {
 					}
 					onClick={() => setMoreInfo(!moreInfo)}
 				>
-					{moreInfo ? 'Меньше информации' : 'Больше информации'}
+					{moreInfo ? 'Меньше' : 'Больше'}
 				</Button>
 
 				<Box
