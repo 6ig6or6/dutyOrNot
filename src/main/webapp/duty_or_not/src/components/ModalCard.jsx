@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Modal, Typography } from '@mui/material';
 
-export const ModalCard = () => {
+export const ModalCard = ({ modalOpen, setModalOpen }) => {
 	return (
 		<Modal
-			open={open}
-			onClose={handleClose}
+			open={modalOpen}
+			onClose={setModalOpen(false)}
 			aria-labelledby="modal-modal-title"
 			aria-describedby="modal-modal-description"
 		>
