@@ -40,13 +40,16 @@ public class CaseController {
                 paragraph, category,
                 caseAfter, caseBefore,
                 pageNumber, pageSize);
+        int count = caseService.countCases(title, comment, paragraph, category, caseAfter, caseBefore);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Access-Control-Allow-Origin", "http://localhost:3000");
+        headers.set("Access-Control-Expose-Headers", "X-Total-Count");
+        headers.set("X-Total-Count", String.valueOf(count));
         return ResponseEntity.ok().headers(headers).body(cases);
     }
 
     @DeleteMapping("admin/delete/{id}")
-    public ResponseEntity<?> deleteCase(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCase(@PathVariable Long id) {
         caseService.deleteCase(id);
         return ResponseEntity.ok().build();
     }
