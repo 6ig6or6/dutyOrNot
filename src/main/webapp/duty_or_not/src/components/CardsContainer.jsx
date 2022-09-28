@@ -34,7 +34,8 @@ export const CardsContainer = () => {
 		}
 	]);
 
-	const [value, setValue] = useState('');
+	const [titleValue, setTitleValue] = useState('');
+	const [commentValue, setCommentValue] = useState('');
 
 	const [fetchCards, isCardsLoading, cardsError] = useFetching(async () => {
 		const cards = await CardService.getAll(
@@ -60,12 +61,21 @@ export const CardsContainer = () => {
 		fetchCards();
 	}, [cardsPerPage, currentPage, filterParams]);
 
-	const handleSubmit = (e, value) => {
+	const handleSubmitTitle = (e, value) => {
 		e.preventDefault();
 		setFilterParams((prev) => {
 			return {
 				...prev,
 				title: value
+			};
+		});
+	};
+	const handleSubmitComment = (e, value) => {
+		e.preventDefault();
+		setFilterParams((prev) => {
+			return {
+				...prev,
+				comment: value
 			};
 		});
 	};
@@ -111,11 +121,18 @@ export const CardsContainer = () => {
 							}}
 						/>
 						<SearchField
-							value={value}
-							setValue={setValue}
+							value={titleValue}
+							setValue={setTitleValue}
 							label="Искать по названию"
 							inputValue={filterParams.title}
-							handleSubmit={handleSubmit}
+							handleSubmit={handleSubmitTitle}
+						/>
+						<SearchField
+							value={commentValue}
+							setValue={setCommentValue}
+							label="Искать по описанию"
+							inputValue={filterParams.comment}
+							handleSubmit={handleSubmitComment}
 						/>
 					</Box>
 					<Grid
