@@ -33,9 +33,9 @@ export const CardBlock = ({ card }) => {
 					mb={2}
 					noWrap={moreInfo ? false : true}
 				>
-					{card?.body}
+					{card?.comment}
 				</Typography>
-				{/* <Box
+				<Box
 					sx={{
 						borderRadius: '10px',
 						width: 'max-content',
@@ -47,7 +47,7 @@ export const CardBlock = ({ card }) => {
 					<Typography variant="h5" color="#ffffff">
 						{transformCategory(card?.category).name}
 					</Typography>
-				</Box> */}
+				</Box>
 			</CardContent>
 
 			<CardActions>
@@ -68,7 +68,7 @@ export const CardBlock = ({ card }) => {
 						width: '100%'
 					}}
 				>
-					{/* <Box variant="body2" pl={1} mb={0}>
+					<Box variant="body2" pl={1} mb={0}>
 						Создано:
 						<Typography variant="body2" mb={0}>
 							{getDateFromMilliseconds(card?.caseDate)}
@@ -79,7 +79,7 @@ export const CardBlock = ({ card }) => {
 						<Typography variant="body2" mb={0}>
 							{getDateFromMilliseconds(card?.creationDate)}
 						</Typography>
-					</Box> */}
+					</Box>
 				</Box>
 			</CardActions>
 		</Card>

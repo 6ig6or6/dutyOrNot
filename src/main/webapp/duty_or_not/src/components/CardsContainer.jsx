@@ -3,38 +3,52 @@ import { Container } from '@mui/system';
 import Grid from '@mui/material/Grid';
 import { CardBlock } from './CardBlock';
 import CardService from '../API/CardService';
-import { Box, CircularProgress, Pagination, Typography } from '@mui/material';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import {
+	Box,
+	CircularProgress,
+	Pagination,
+	TextField,
+	Typography
+} from '@mui/material';
 import { useFetching } from '../hooks/useFetching';
 import { SettingsForm } from './SettingsForm';
 import { getPagesCount } from '../utils/pages';
 
 export const CardsContainer = () => {
-	const [filterParams, setFilterParams] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [cardsPerPage, setCardsPerPage] = useState(5);
+	const [filterParams, setFilterParams] = useState({
+		page: currentPage,
+		limit: cardsPerPage,
+		title: '',
+		comment: '',
+		paragraph: '',
+		category: ''
+	});
 	const [cards, setCards] = useState([
 		{
 			id: 1,
-			title: 'Незаращение овального окна 4мм',
-			comment:
-				'По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году По данному диагнозу Витебским военкоматом была выдана годность НГМ в 2020 году',
-			paragraph: '80В',
-			category: 'G',
-			caseDate: 1604277230022,
+			title: '',
+			comment: '',
+			paragraph: '40В',
+			category: 'GO',
+			caseDate: 1664053200000,
 			creationDate: 1664053200000
 		}
 	]);
 	const [fetchCards, isCardsLoading, cardsError] = useFetching(async () => {
-		const cards = await CardService.getAll(cardsPerPage, currentPage);
-		setCards(cards.data);
-		console.log(cards.headers['x-total-count'], 'total');
-		console.log(cardsPerPage, 'per page');
-		console.log(getPagesCount(100, 5));
-		console.log(
-			getPagesCount(cards.headers['x-total-count'], cardsPerPage),
-			'stranici'
+		const cards = await CardService.getAll(
+			cardsPerPage,
+			currentPage,
+			filterParams.title,
+			filterParams.comment,
+			filterParams.paragraph,
+			filterParams.category
 		);
+		setCards(cards.data);
+
 		const totalNum = cards.headers['x-total-count'];
 		setTotalPages(getPagesCount(totalNum, cardsPerPage));
 	});
@@ -46,8 +60,7 @@ export const CardsContainer = () => {
 
 	useEffect(() => {
 		fetchCards();
-	}, [cardsPerPage, currentPage]);
-
+	}, [cardsPerPage, currentPage, filterParams]);
 	return (
 		<Container sx={{ py: 8 }} maxWidth="xl">
 			{cardsError && (
@@ -55,6 +68,7 @@ export const CardsContainer = () => {
 					{cardsError}
 				</Typography>
 			)}
+
 			{isCardsLoading ? (
 				<CircularProgress
 					color="primary"
@@ -63,13 +77,37 @@ export const CardsContainer = () => {
 				/>
 			) : (
 				<>
-					<SettingsForm
-						cardsPerPage={cardsPerPage}
-						setCardsPerPage={(e) => {
-							setCardsPerPage(e.target.value);
-							setCurrentPage(1);
-						}}
-					/>
+					<Box sx={{ display: 'flex', gap: '15px' }}>
+						<SettingsForm
+							label="Показывать по"
+							items={[5, 10, 20]}
+							title="Показывать по"
+							state={cardsPerPage}
+							setState={(e) => {
+								setCardsPerPage(e.target.value);
+								setCurrentPage(1);
+							}}
+						/>
+						<SettingsForm
+							label="Категория"
+							items={['Все', 'Г', 'ГО', 'НГМ', 'НГИ', 'ВН']}
+							title="Категория"
+							state={filterParams.category}
+							setState={(e) => {
+								setFilterParams((prev) => ({
+									...prev,
+									category: e.target.value || ''
+								}));
+								setCurrentPage(1);
+							}}
+						/>
+						<TextField
+							id="outlined-basic"
+							label="Искать по названию"
+							variant="standard"
+							size="small"
+						/>
+					</Box>
 					<Grid
 						container
 						spacing={4}
@@ -89,17 +127,30 @@ export const CardsContainer = () => {
 							pt: '20px'
 						}}
 					>
-						<Pagination
-							count={totalPages}
-							color="primary"
-							shape="rounded"
-							page={currentPage}
-							onChange={handlePageChange}
-							boundaryCount={2}
-							sx={{ display: 'block', m: '10 auto' }}
-						/>
+						{cards.length !== 0 ? (
+							<Pagination
+								count={+totalPages}
+								color="primary"
+								shape="rounded"
+								page={currentPage}
+								onChange={handlePageChange}
+								boundaryCount={2}
+								sx={{ display: 'block', m: '10 auto' }}
+							/>
+						) : undefined}
 					</Box>
 				</>
+			)}
+			{!cards.length && (
+				<Typography
+					variant="h3"
+					color="error"
+					textAlign="center"
+					py={4}
+				>
+					По данному запросу ничего не найдено{' '}
+					<SentimentVeryDissatisfiedIcon fontSize="large" />
+				</Typography>
 			)}
 		</Container>
 	);

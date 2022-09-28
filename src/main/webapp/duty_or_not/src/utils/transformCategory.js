@@ -6,9 +6,21 @@ const categories = {
 	VN: ['ВН', ' #ffcc66']
 };
 
+const categoriesBackwards = {
+	Г: 'G',
+	ГО: 'GO',
+	НГМ: 'NGM',
+	НГИ: 'NGI',
+	ВН: 'VN'
+};
+
 export const transformCategory = (category) => {
 	return {
 		name: categories[category][0],
 		color: categories[category][1]
 	};
+};
+
+export const transformCategoryBackwards = (category) => {
+	return categoriesBackwards[category];
 };

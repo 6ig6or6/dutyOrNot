@@ -14,7 +14,7 @@ export default function App() {
 			<CssBaseline />
 			<TopBar />
 			<main>
-				<Hero />
+				{/* <Hero /> */}
 				<CardsContainer />
 			</main>
 			{/* Footer */}
