@@ -4,6 +4,7 @@ import com.prizyv.dutyornot.dto.CaseDTO;
 import com.prizyv.dutyornot.entity.Case;
 import com.prizyv.dutyornot.entity.Category;
 import com.prizyv.dutyornot.service.CaseService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,9 @@ public class CaseController {
                 paragraph, category,
                 caseAfter, caseBefore,
                 pageNumber, pageSize);
-        return new ResponseEntity<>(cases, HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Access-Control-Allow-Origin", "http://localhost:3000");
+        return ResponseEntity.ok().headers(headers).body(cases);
     }
 
     @DeleteMapping("admin/delete/{id}")

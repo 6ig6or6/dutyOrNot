@@ -15,9 +15,14 @@ public class ApplicationSecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .mvcMatchers("/api/v1/case", "/api/v1/cases").permitAll()
-                        .anyRequest().authenticated()
+                        .mvcMatchers("/h2-console/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(withDefaults());
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
         return http.build();
     }
+
 }
