@@ -9,7 +9,7 @@ export const SettingsForm = ({ state, setState, title, items, label }) => {
 			<Select id={label} value={state} label={label} onChange={setState}>
 				{items.map((item) => {
 					return item === 'Все' ? (
-						<MenuItem value="">
+						<MenuItem key={item} value="">
 							<em>{item}</em>
 						</MenuItem>
 					) : (

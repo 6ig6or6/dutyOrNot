@@ -4,16 +4,11 @@ import Grid from '@mui/material/Grid';
 import { CardBlock } from './CardBlock';
 import CardService from '../API/CardService';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import {
-	Box,
-	CircularProgress,
-	Pagination,
-	TextField,
-	Typography
-} from '@mui/material';
+import { Box, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useFetching } from '../hooks/useFetching';
 import { SettingsForm } from './SettingsForm';
 import { getPagesCount } from '../utils/pages';
+import { SearchField } from './SearchField';
 
 export const CardsContainer = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +33,9 @@ export const CardsContainer = () => {
 			creationDate: 1664053200000
 		}
 	]);
+
+	const [value, setValue] = useState('');
+
 	const [fetchCards, isCardsLoading, cardsError] = useFetching(async () => {
 		const cards = await CardService.getAll(
 			cardsPerPage,
@@ -61,6 +59,17 @@ export const CardsContainer = () => {
 	useEffect(() => {
 		fetchCards();
 	}, [cardsPerPage, currentPage, filterParams]);
+
+	const handleSubmit = (e, value) => {
+		e.preventDefault();
+		setFilterParams((prev) => {
+			return {
+				...prev,
+				title: value
+			};
+		});
+	};
+
 	return (
 		<Container sx={{ py: 8 }} maxWidth="xl">
 			{cardsError && (
@@ -101,11 +110,12 @@ export const CardsContainer = () => {
 								setCurrentPage(1);
 							}}
 						/>
-						<TextField
-							id="outlined-basic"
+						<SearchField
+							value={value}
+							setValue={setValue}
 							label="Искать по названию"
-							variant="standard"
-							size="small"
+							inputValue={filterParams.title}
+							handleSubmit={handleSubmit}
 						/>
 					</Box>
 					<Grid
