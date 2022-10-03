@@ -7,7 +7,7 @@ public class PageableCreator {
     private final static int STANDARD_PAGE_NUMBER = 0;
     private final static int STANDARD_PAGE_SIZE = 10;
     public static Pageable createPageable(Integer pageNumber, Integer pageSize) {
-        int page = pageNumber == null ? STANDARD_PAGE_NUMBER : pageNumber;
+        int page = pageNumber == null ? STANDARD_PAGE_NUMBER : --pageNumber;
         int size = pageSize == null ? STANDARD_PAGE_SIZE : pageSize;
         return PageRequest.of(page, size);
     }

@@ -57,5 +57,20 @@ public class CaseService {
                 dateAfter, dateBefore,
                 pageable);
     }
+    public int countCases(String title,
+                          String comment,
+                          String paragraph,
+                          Category category,
+                          Long caseAfter,
+                          Long caseBefore) {
+        Date dateAfter = caseAfter == null ? null : new Date(caseAfter);
+        Date dateBefore = caseBefore == null ? null : new Date(caseBefore);
+        return caseRepository.countBy(title,
+                comment,
+                paragraph,
+                category,
+                dateAfter,
+                dateBefore);
+    }
 
 }
