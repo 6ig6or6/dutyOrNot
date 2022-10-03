@@ -21,7 +21,7 @@ public class CaseController {
         this.caseService = caseService;
     }
 
-    @PostMapping("case")
+    @PostMapping("cases")
     public ResponseEntity<Case> registerCase(@RequestBody @Valid CaseDTO caseDTO) {
         Case aCase = caseService.registerCase(caseDTO);
         return new ResponseEntity<>(aCase, HttpStatus.OK);
@@ -33,14 +33,13 @@ public class CaseController {
                                                @RequestParam(required = false) String paragraph,
                                                @RequestParam(required = false) Category category,
                                                @RequestParam(required = false) Long caseAfter,
-                                               @RequestParam(required = false) Long caseBefore,
                                                @RequestParam(required = false) Integer pageNumber,
                                                @RequestParam(required = false) Integer pageSize) {
         List<Case> cases = caseService.getCasesByParams(title, comment,
                 paragraph, category,
-                caseAfter, caseBefore,
+                caseAfter,
                 pageNumber, pageSize);
-        int count = caseService.countCases(title, comment, paragraph, category, caseAfter, caseBefore);
+        int count = caseService.countCases(title, comment, paragraph, category, caseAfter);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Access-Control-Allow-Origin", "http://localhost:3000");
         headers.set("Access-Control-Expose-Headers", "X-Total-Count");
@@ -48,15 +47,4 @@ public class CaseController {
         return ResponseEntity.ok().headers(headers).body(cases);
     }
 
-    @DeleteMapping("admin/delete/{id}")
-    public ResponseEntity<Void> deleteCase(@PathVariable Long id) {
-        caseService.deleteCase(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("admin/update/{id}")
-    public ResponseEntity<Case> updateCase(@PathVariable Long id,
-                                           @RequestBody @Valid CaseDTO caseDTO) {
-        return new ResponseEntity<>(caseService.updateCase(id, caseDTO), HttpStatus.OK);
-    }
 }

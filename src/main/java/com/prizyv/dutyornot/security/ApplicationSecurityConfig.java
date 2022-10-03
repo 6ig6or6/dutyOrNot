@@ -14,7 +14,9 @@ public class ApplicationSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .mvcMatchers("/api/v1/case", "/api/v1/cases").permitAll()
+                        .mvcMatchers("/api/v1/cases", "/api/v1/cases").permitAll()
+                        .mvcMatchers("/api/v1/admin/delete/**",
+                                "/api/v1/admin/update/**").authenticated()
                         .mvcMatchers("/h2-console/**").permitAll()
                         .anyRequest().permitAll()
                 )

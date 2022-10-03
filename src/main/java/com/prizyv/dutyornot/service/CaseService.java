@@ -22,7 +22,9 @@ public class CaseService {
     }
 
     public Case findById(Long id) {
-        return caseRepository.findById(id).orElseThrow(CaseNotFoundException::new);
+        return caseRepository
+                .findById(id)
+                .orElseThrow(CaseNotFoundException::new);
     }
 
     public Case registerCase(CaseDTO caseDTO) {
@@ -37,8 +39,9 @@ public class CaseService {
 
     public Case updateCase(Long id, CaseDTO caseDTO) {
         Case aCase = findById(id);
-        //TODO
-        return null;
+        Case updated = CaseMapper.updateCase(caseDTO, aCase);
+        caseRepository.save(updated);
+        return updated;
     }
 
     public List<Case> getCasesByParams(String title,
@@ -46,31 +49,26 @@ public class CaseService {
                                        String paragraph,
                                        Category category,
                                        Long caseAfter,
-                                       Long caseBefore,
                                        Integer pageNumber,
                                        Integer pageSize) {
         Date dateAfter = caseAfter == null ? null : new Date(caseAfter);
-        Date dateBefore = caseBefore == null ? null : new Date(caseBefore);
         Pageable pageable = PageableCreator.createPageable(pageNumber, pageSize);
         return caseRepository.findBy(title, comment,
                 paragraph, category,
-                dateAfter, dateBefore,
+                dateAfter,
                 pageable);
     }
     public int countCases(String title,
                           String comment,
                           String paragraph,
                           Category category,
-                          Long caseAfter,
-                          Long caseBefore) {
+                          Long caseAfter) {
         Date dateAfter = caseAfter == null ? null : new Date(caseAfter);
-        Date dateBefore = caseBefore == null ? null : new Date(caseBefore);
         return caseRepository.countBy(title,
                 comment,
                 paragraph,
                 category,
-                dateAfter,
-                dateBefore);
+                dateAfter);
     }
 
 }
