@@ -9,6 +9,7 @@ import { TopBar } from './components/TopBar';
 const theme = createTheme();
 
 export default function App() {
+	console.log(theme);
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />

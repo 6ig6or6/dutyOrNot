@@ -8,7 +8,8 @@ export default class CardService {
 		title = '',
 		comment = '',
 		paragraph = '',
-		category = ''
+		category = '',
+		caseAfter = ''
 	) {
 		const queryParamsList = [
 			'pageSize',
@@ -16,7 +17,8 @@ export default class CardService {
 			'title',
 			'comment',
 			'paragraph',
-			'category'
+			'category',
+			'caseAfter'
 		];
 		const queryParams = {};
 		[...arguments].forEach((el, ind) => {

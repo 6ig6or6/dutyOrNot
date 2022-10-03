@@ -71,13 +71,13 @@ export const CardBlock = ({ card }) => {
 					<Box variant="body2" pl={1} mb={0}>
 						Создано:
 						<Typography variant="body2" mb={0}>
-							{getDateFromMilliseconds(card?.caseDate)}
+							{getDateFromMilliseconds(card?.creationDate)}
 						</Typography>
 					</Box>
 					<Box variant="body2">
 						Поставлен диагноз:
 						<Typography variant="body2" mb={0}>
-							{getDateFromMilliseconds(card?.creationDate)}
+							{getDateFromMilliseconds(card?.caseDate)}
 						</Typography>
 					</Box>
 				</Box>

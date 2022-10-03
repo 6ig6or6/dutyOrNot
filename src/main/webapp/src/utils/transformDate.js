@@ -1,10 +1,14 @@
-export const getDateFromMilliseconds = (miliseconds) => {
-	return new Date(miliseconds)
-		.toISOString()
-		.slice(0, 10)
-		.split('-')
-		.reverse()
-		.join('/');
+const padTo2Digits = (num) => {
+	return num.toString().padStart(2, '0');
+};
+
+export const getDateFromMilliseconds = (milliseconds) => {
+	const date = new Date(milliseconds);
+	return [
+		padTo2Digits(date.getDate()),
+		padTo2Digits(date.getMonth() + 1),
+		date.getFullYear()
+	].join('/');
 };
 
 export const getMillisecondsFromDate = (date) => {

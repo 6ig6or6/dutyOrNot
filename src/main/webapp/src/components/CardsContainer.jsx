@@ -4,11 +4,19 @@ import Grid from '@mui/material/Grid';
 import { CardBlock } from './CardBlock';
 import CardService from '../API/CardService';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { Box, CircularProgress, Pagination, Typography } from '@mui/material';
+import {
+	Box,
+	CircularProgress,
+	Pagination,
+	Typography,
+	useMediaQuery
+} from '@mui/material';
 import { useFetching } from '../hooks/useFetching';
 import { SettingsForm } from './SettingsForm';
 import { getPagesCount } from '../utils/pages';
 import { SearchField } from './SearchField';
+import { DatePickerCreation } from './DatePicker';
+import { getMillisecondsFromDate } from '../utils/transformDate';
 
 export const CardsContainer = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -20,7 +28,8 @@ export const CardsContainer = () => {
 		title: '',
 		comment: '',
 		paragraph: '',
-		category: ''
+		category: '',
+		caseAfter: ''
 	});
 	const [cards, setCards] = useState([
 		{
@@ -36,6 +45,7 @@ export const CardsContainer = () => {
 
 	const [titleValue, setTitleValue] = useState('');
 	const [commentValue, setCommentValue] = useState('');
+	const [diagnoseDate, setDiagnoseDate] = useState(new Date());
 
 	const [fetchCards, isCardsLoading, cardsError] = useFetching(async () => {
 		const cards = await CardService.getAll(
@@ -44,7 +54,8 @@ export const CardsContainer = () => {
 			filterParams.title,
 			filterParams.comment,
 			filterParams.paragraph,
-			filterParams.category
+			filterParams.category,
+			filterParams.caseAfter
 		);
 		setCards(cards.data);
 
@@ -79,6 +90,17 @@ export const CardsContainer = () => {
 			};
 		});
 	};
+	const handleSubmitDiagnoseDate = (value) => {
+		console.log(getMillisecondsFromDate(value.$d));
+		setFilterParams((prev) => {
+			return {
+				...prev,
+				caseAfter: getMillisecondsFromDate(value.$d)
+			};
+		});
+	};
+
+	const moreThan900 = useMediaQuery('(min-width:900px)');
 
 	return (
 		<Container sx={{ py: 8 }} maxWidth="xl">
@@ -96,7 +118,15 @@ export const CardsContainer = () => {
 				/>
 			) : (
 				<>
-					<Box sx={{ display: 'flex', gap: '15px' }}>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: moreThan900 ? 'row' : 'column',
+							alignItems: 'flex-start',
+							gap: '15px',
+							padding: '10px'
+						}}
+					>
 						<SettingsForm
 							label="Показывать по"
 							items={[5, 10, 20]}
@@ -120,20 +150,36 @@ export const CardsContainer = () => {
 								setCurrentPage(1);
 							}}
 						/>
-						<SearchField
-							value={titleValue}
-							setValue={setTitleValue}
-							label="Искать по названию"
-							inputValue={filterParams.title}
-							handleSubmit={handleSubmitTitle}
-						/>
-						<SearchField
-							value={commentValue}
-							setValue={setCommentValue}
-							label="Искать по описанию"
-							inputValue={filterParams.comment}
-							handleSubmit={handleSubmitComment}
-						/>
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: moreThan900 ? 'row' : 'column',
+								gap: '15px',
+								padding: '10px'
+							}}
+						>
+							<SearchField
+								value={titleValue}
+								setValue={setTitleValue}
+								label="Искать по названию"
+								inputValue={filterParams.title}
+								handleSubmit={handleSubmitTitle}
+							/>
+							<SearchField
+								value={commentValue}
+								setValue={setCommentValue}
+								label="Искать по описанию"
+								inputValue={filterParams.comment}
+								handleSubmit={handleSubmitComment}
+							/>
+							<DatePickerCreation
+								value={diagnoseDate}
+								setValue={setDiagnoseDate}
+								label="Диагноз поставлен после:"
+								inputValue={filterParams.caseAfter}
+								handleSubmit={handleSubmitDiagnoseDate}
+							/>
+						</Box>
 					</Box>
 					<Grid
 						container
