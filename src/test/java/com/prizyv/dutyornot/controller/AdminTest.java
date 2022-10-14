@@ -20,9 +20,11 @@ public class AdminTest extends AbstractTest {
     protected static final String PUT_PATH = COMMON_URL + "admin/update/";
     private static final String CORRECT_ID = "1";
     private static final String INCORRECT_ID = "-100";
+    @SuppressWarnings("all")
     @MockBean
     private CaseService caseService;
 
+    /** all of these test should be corrected when Spring Security will be finally configured*/
     @Test
     public void deleteCaseTest() throws Exception {
         mvc.perform(delete(DELETE_PATH + CORRECT_ID)
@@ -31,15 +33,22 @@ public class AdminTest extends AbstractTest {
                 .andReturn();
     }
     @Test
-    public void deleteCaseWithIncorrectId() throws Exception {
+    public void deleteCaseWithIncorrectIdTest() throws Exception {
         mvc.perform(delete(DELETE_PATH + INCORRECT_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized())
                 .andReturn();
     }
     @Test
-    public void putCaseWithCorrectId() throws Exception {
+    public void putCaseWithCorrectIdTest() throws Exception {
         mvc.perform(put(PUT_PATH + CORRECT_ID)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
+    @Test
+    public void putCaseWithIncorrectIdTest() throws Exception {
+        mvc.perform(put(PUT_PATH + INCORRECT_ID)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized())
                 .andReturn();
