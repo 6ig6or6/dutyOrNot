@@ -20,7 +20,7 @@ public class AdminTest extends AbstractTest {
     protected static final String PUT_PATH = COMMON_URL + "admin/update/";
     private static final String CORRECT_ID = "1";
     private static final String INCORRECT_ID = "-100";
-    @SuppressWarnings("all")
+    @SuppressWarnings("unused")
     @MockBean
     private CaseService caseService;
 
