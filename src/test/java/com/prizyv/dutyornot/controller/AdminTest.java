@@ -36,7 +36,7 @@ public class AdminTest extends AbstractTest {
     public void deleteCaseWithIncorrectIdTest() throws Exception {
         mvc.perform(delete(DELETE_PATH + INCORRECT_ID)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().isOk())
                 .andReturn();
     }
     @Test
