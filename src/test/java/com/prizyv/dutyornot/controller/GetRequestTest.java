@@ -3,7 +3,7 @@ package com.prizyv.dutyornot.controller;
 import com.prizyv.dutyornot.AbstractTest;
 import com.prizyv.dutyornot.entity.Case;
 import com.prizyv.dutyornot.service.CaseService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,12 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CaseController.class)
-public class GetRequestTest extends AbstractTest {
+class GetRequestTest extends AbstractTest {
     @MockBean
     private CaseService caseService;
 
     @Test
-    public void getAllCasesTest() throws Exception {
+    void getAllCasesTest() throws Exception {
         List<Case> list = new ArrayList<>(Arrays.asList(CASE_1, CASE_2, CASE_3, CASE_4));
 
         Mockito.when(caseService.getCasesByParams(null, null, null, null,
