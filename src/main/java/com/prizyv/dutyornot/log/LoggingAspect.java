@@ -46,6 +46,7 @@ public class LoggingAspect {
             if (log.isDebugEnabled()) {
                 log.debug("Exit: {}.{}() with result = {}", joinPoint.getSignature().getDeclaringTypeName(),
                         joinPoint.getSignature().getName(), result);
+                //proverka jenkins
             }
             return result;
         } catch (IllegalArgumentException e) {
